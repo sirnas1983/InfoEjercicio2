@@ -1,12 +1,13 @@
 package ejercicio2.domain;
 
 import ejercicio2.enums.EstadoPedido;
+import ejercicio2.servicio.menu.MenuPedidoImpl;
 
 public class Pedido {
     private Long id;
     private Cliente cliente;
     private Carrito carrito;
-
+    private String DIVISOR_GUION_MEDIO = "-".repeat(35);
     private EstadoPedido estado;
 
     public Pedido() {
@@ -55,7 +56,7 @@ public class Pedido {
     @Override
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("_".repeat(35) + "\n");
+        stringBuilder.append(this.DIVISOR_GUION_MEDIO + "\n");
         stringBuilder.append(String.format("PEDIDO N° %d\n", this.getId()));
         stringBuilder.append(String.format("ESTADO: %s\n", this.getEstado().toString()));
         stringBuilder.append(this.carrito);

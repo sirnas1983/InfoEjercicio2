@@ -5,15 +5,16 @@ import ejercicio2.domain.Pedido;
 import ejercicio2.entrada.InputConsoleService;
 import ejercicio2.enums.EstadoPedido;
 import ejercicio2.servicio.pedido.PedidoServicio;
-import ejercicio2.servicio.pedido.PedidoServicioImpl;
 
 import java.util.List;
 
 public class MenuPedidoImpl implements MenuPedido{
 
     public String MENSAJE_PEDIDOS_VACIO_TEMPLATE = "No tiene pedidos realizados";
+    public String MENSAJE_PEDIDOS_FILTRADOS_VACIO_TEMPLATE = "No se encuentran pedidos con ese estado";
     public String MENSAJE_SELECCION_DE_OPCIONES = "Elija el estado de los pedidos que quiera ver:";
     public String MENSAJE_INDICE_FUERA_DE_RANGO = "El indice seleccionado esta fuera de Rango.";
+    public String DIVISOR_GUION_MEDIO = "-".repeat(45);
     private Cliente cliente;
     private PedidoServicio pedidoServicio;
     public MenuPedidoImpl(Cliente cliente, PedidoServicio pedidoServicio){
@@ -24,6 +25,7 @@ public class MenuPedidoImpl implements MenuPedido{
     public void verPedidos() {
         if(this.cliente.getPedidos().isEmpty()){
             System.out.println(MENSAJE_PEDIDOS_VACIO_TEMPLATE);
+            System.out.println(DIVISOR_GUION_MEDIO);
         }
         else {
             System.out.println(MENSAJE_SELECCION_DE_OPCIONES);
@@ -38,8 +40,14 @@ public class MenuPedidoImpl implements MenuPedido{
                 System.out.println(MENSAJE_INDICE_FUERA_DE_RANGO);
             }
             List<Pedido> pedidos = pedidoServicio.getPedidosPorEstado(this.cliente, estado);
-            for (Pedido pedido : pedidos){
-                System.out.println(pedido);
+            if (pedidos.isEmpty()){
+                System.out.println(this.DIVISOR_GUION_MEDIO);
+                System.out.println(MENSAJE_PEDIDOS_FILTRADOS_VACIO_TEMPLATE);
+                System.out.println(this.DIVISOR_GUION_MEDIO);
+            } else {
+                for (Pedido pedido : pedidos) {
+                    System.out.println(pedido);
+                }
             }
         }
     }
@@ -53,7 +61,7 @@ public class MenuPedidoImpl implements MenuPedido{
             stringBuilder.append(String.format("%d. %s\n", i, estadoPedido.toString()));
             i++;
         }
-        stringBuilder.append("0. Ver todos\n");
+        stringBuilder.append("0. Ver todos");
         return stringBuilder.toString();
     }
 }

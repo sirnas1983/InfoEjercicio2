@@ -1,9 +1,12 @@
 package ejercicio2.domain;
 
+import ejercicio2.servicio.menu.MenuPedidoImpl;
+
 import java.util.HashMap;
 
 public class Carrito {
     private Long id;
+    private String DIVISOR_GUION_MEDIO = "-".repeat(35);
     private Cliente cliente;
     private HashMap<Producto, Integer> products;
     private Pedido pedido;
@@ -71,15 +74,15 @@ public class Carrito {
         StringBuilder texto = new StringBuilder();
         if(this.getProducts().isEmpty()){
             texto.append("Carrito vacio");
+            texto.append(this.DIVISOR_GUION_MEDIO);
         } else {
             for (Producto prod : this.getProducts().keySet()) {
                 texto.append(String.format("Prod: %s - Cant: %d\n", prod.getNombre(), this.getProducts().get(prod)));
             }
-            texto.append("-".repeat(35));
+            texto.append(this.DIVISOR_GUION_MEDIO);
             texto.append("\n");
-            texto.append(String.format("Total de compra: %.2f\n", this.montoCarrito()));
-            texto.append("-".repeat(35));
-            texto.append("\n");
+            texto.append(String.format("Total de compra: %.2fUSD\n", this.montoCarrito()));
+            texto.append(this.DIVISOR_GUION_MEDIO);
         }
         return texto.toString();
     }
